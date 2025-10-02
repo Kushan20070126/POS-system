@@ -1,0 +1,172 @@
+﻿<Window x:Class="FoodPOS.ManageProductsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manage Products - FoodPOS" 
+        Height="600" Width="900"
+        WindowStartupLocation="CenterOwner"
+        Background="White">
+
+    <Window.Resources>
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header and Controls -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="➕ Add New Product" 
+                    Style="{StaticResource ActionButton}"
+                    Background="#4CAF50" Foreground="White"
+                    Click="btnAddProduct_Click"/>
+            <Button Content="🔄 Refresh" 
+                    Style="{StaticResource ActionButton}"
+                    Background="#2196F3" Foreground="White"
+                    Click="btnRefresh_Click"/>
+            <Button Content="📊 Stock Report" 
+                    Style="{StaticResource ActionButton}"
+                    Background="#FF9800" Foreground="White"
+                    Click="btnStockReport_Click"/>
+            <Button Content="❌ Close" 
+                    Style="{StaticResource ActionButton}"
+                    Background="#F44336" Foreground="White"
+                    Click="btnClose_Click"/>
+
+            <TextBlock Text="Search:" VerticalAlignment="Center" Margin="20,0,5,0"/>
+            <TextBox x:Name="txtSearch" Width="200" Height="25" 
+                     TextChanged="txtSearch_TextChanged"/>
+        </StackPanel>
+
+        <!-- Products DataGrid -->
+        <DataGrid Grid.Row="1" x:Name="dgProducts" 
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <!-- Product ID -->
+                <DataGridTextColumn Header="ID" Binding="{Binding ProductId}" Width="50"/>
+
+                <!-- Name -->
+                <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="200"/>
+
+                <!-- Description -->
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="250"/>
+
+                <!-- Price -->
+                <DataGridTextColumn Header="Price (Rs.)" Binding="{Binding Price, StringFormat='{}{0:N2}'}" Width="100"/>
+
+                <!-- Cost Price -->
+                <DataGridTextColumn Header="Cost Price (Rs.)" Binding="{Binding CostPrice, StringFormat='{}{0:N2}'}" Width="100"/>
+
+                <!-- Stock Quantity -->
+                <DataGridTextColumn Header="Stock" Binding="{Binding StockQuantity}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="0">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="1">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="2">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="3">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Stock Status -->
+                <DataGridTextColumn Header="Status" Binding="{Binding StockText}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="0">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="1">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="2">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="3">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="4">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <!-- Category -->
+                <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="120"/>
+
+                <!-- Barcode -->
+                <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="120"/>
+
+                <!-- Active Status -->
+                <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="60"/>
+
+                <!-- Action Buttons -->
+                <DataGridTemplateColumn Header="Actions" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="✏️ Edit" 
+                                        Background="#2196F3" Foreground="White"
+                                        Padding="5,2" Margin="2"
+                                        Click="btnEditProduct_Click"
+                                        Tag="{Binding ProductId}"/>
+                                <Button Content="📦 Stock" 
+                                        Background="#FF9800" Foreground="White"
+                                        Padding="5,2" Margin="2"
+                                        Click="btnUpdateStock_Click"
+                                        Tag="{Binding ProductId}"/>
+                                <Button Content="🗑️ Delete" 
+                                        Background="#F44336" Foreground="White"
+                                        Padding="5,2" Margin="2"
+                                        Click="btnDeleteProduct_Click"
+                                        Tag="{Binding ProductId}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Footer Statistics -->
+        <Border Grid.Row="2" Background="#F5F5F5" BorderBrush="#DDD" BorderThickness="1" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📊 Statistics: " FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBlock x:Name="txtTotalProducts" Margin="0,0,20,0"/>
+                <TextBlock x:Name="txtOutOfStock" Foreground="Red" Margin="0,0,20,0"/>
+                <TextBlock x:Name="txtLowStock" Foreground="Orange" Margin="0,0,20,0"/>
+                <TextBlock x:Name="txtInStock" Foreground="Green"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

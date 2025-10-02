@@ -1,0 +1,64 @@
+﻿<Window x:Class="FoodPOS.StockUpdateDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Update Stock - FoodPOS" 
+        Height="300" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="White">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Product Information -->
+        <TextBlock Grid.Row="0" x:Name="txtProductName" FontWeight="Bold" FontSize="16" 
+                   Margin="0,0,0,10" Foreground="#2196F3"/>
+
+        <TextBlock Grid.Row="1" x:Name="txtCurrentStock" FontSize="14" 
+                   Margin="0,0,0,20" Foreground="#666"/>
+
+        <!-- Update Type -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,10">
+            <TextBlock Text="Update Type:" FontWeight="Bold" Margin="0,0,0,5"/>
+            <ComboBox x:Name="cmbUpdateType" Height="30" 
+                      SelectionChanged="cmbUpdateType_SelectionChanged">
+                <ComboBoxItem Content="➕ Add Stock" IsSelected="True"/>
+                <ComboBoxItem Content="📝 Set Stock"/>
+                <ComboBoxItem Content="➖ Remove Stock"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- Quantity -->
+        <StackPanel Grid.Row="3" Margin="0,0,0,20">
+            <TextBlock Text="Quantity:" FontWeight="Bold" Margin="0,0,0,5"/>
+            <TextBox x:Name="txtQuantity" Height="30" Text="0" 
+                     PreviewTextInput="txtQuantity_PreviewTextInput"/>
+        </StackPanel>
+
+        <!-- New Stock Preview -->
+        <Border Grid.Row="4" Background="#F5F5F5" BorderBrush="#DDD" BorderThickness="1" 
+                CornerRadius="5" Padding="10" Margin="0,0,0,15">
+            <StackPanel>
+                <TextBlock Text="📊 Stock Preview:" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBlock x:Name="txtNewStock" FontSize="12"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="💾 Update Stock" Width="120" Height="35" 
+                    Background="#4CAF50" Foreground="White" FontWeight="SemiBold"
+                    Click="btnUpdate_Click" Margin="0,0,10,0"/>
+            <Button Content="❌ Cancel" Width="80" Height="35" 
+                    Background="#F44336" Foreground="White"
+                    Click="btnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

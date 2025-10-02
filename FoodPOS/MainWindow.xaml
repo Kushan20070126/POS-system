@@ -1,0 +1,169 @@
+﻿<Window x:Class="FoodPOS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FoodPOS - Login" Height="800" Width="500"
+        WindowStartupLocation="CenterScreen"
+        Background="White">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" Margin="30">
+
+            <!-- Header -->
+            <Border Background="#2196F3" CornerRadius="10" Padding="20" Margin="0,0,0,30">
+                <TextBlock Text="🍕 FoodPOS" 
+                          Foreground="White" 
+                          FontSize="28" 
+                          FontWeight="Bold"
+                          HorizontalAlignment="Center"/>
+            </Border>
+
+            <TextBlock Text="Login to System" 
+                      FontSize="18" 
+                      FontWeight="SemiBold"
+                      Foreground="#333"
+                      HorizontalAlignment="Center" 
+                      Margin="0,0,0,30"/>
+
+            <!-- Username -->
+            <TextBlock Text="Username" FontWeight="SemiBold" Foreground="#666" Margin="0,0,0,5"/>
+            <TextBox x:Name="txtUsername" 
+                    Height="40"
+                    BorderThickness="0,0,0,2"
+                    BorderBrush="#2196F3"
+                    Padding="10"
+                    FontSize="14"
+                    Background="Transparent"/>
+
+            <!-- Password -->
+            <TextBlock Text="Password" FontWeight="SemiBold" Foreground="#666" Margin="0,20,0,5"/>
+            <PasswordBox x:Name="txtPassword" 
+                        Height="40"
+                        BorderThickness="0,0,0,2"
+                        BorderBrush="#2196F3"
+                        Padding="10"
+                        FontSize="14"
+                        Background="Transparent"/>
+
+            <!-- Remember Me -->
+            <CheckBox x:Name="chkRememberMe" 
+                     Content="Remember Me" 
+                     Margin="0,20,0,10"
+                     Foreground="#666"/>
+
+            <!-- Login Button -->
+            <Button x:Name="btnLogin" 
+                   Content="LOGIN" 
+                   Height="45"
+                   Background="#2196F3"
+                   Foreground="White"
+                   BorderThickness="0"
+                   FontSize="16"
+                   FontWeight="SemiBold"
+                   Click="btnLogin_Click"
+                   Margin="0,10,0,10"
+                   Cursor="Hand"/>
+
+            <!-- Status Message -->
+            <TextBlock x:Name="txtStatus" 
+                      Foreground="Red"
+                      HorizontalAlignment="Center" 
+                      FontSize="12"
+                      TextWrapping="Wrap" 
+                      Margin="0,10,0,0"
+                      Visibility="Collapsed"/>
+
+            <!-- System Status -->
+            <Border Background="#F8F9FA" CornerRadius="5" Padding="15" Margin="0,20,0,0"
+                    BorderThickness="1" BorderBrush="#E9ECEF">
+                <StackPanel>
+                    <TextBlock Text="System Status" 
+                              FontWeight="SemiBold" 
+                              Margin="0,0,0,10" 
+                              HorizontalAlignment="Center"
+                              Foreground="#495057"/>
+
+                    <!-- Docker Status -->
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Docker Container" Foreground="#495057"/>
+                        <Ellipse Grid.Column="1" x:Name="dockerStatus" Width="10" Height="10" 
+                                Fill="Red" Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <!-- Database Status -->
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Database Connection" Foreground="#495057"/>
+                        <Ellipse Grid.Column="1" x:Name="dbStatus" Width="10" Height="10" 
+                                Fill="Red" Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <!-- Auth Service Status -->
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Auth Service" Foreground="#495057"/>
+                        <Ellipse Grid.Column="1" x:Name="authStatus" Width="10" Height="10" 
+                                Fill="Red" Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <!-- Product Service Status -->
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Product Service" Foreground="#495057"/>
+                        <Ellipse Grid.Column="1" x:Name="productStatus" Width="10" Height="10" 
+                                Fill="Red" Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <!-- Sales Service Status -->
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Sales Service" Foreground="#495057"/>
+                        <Ellipse Grid.Column="1" x:Name="salesStatus" Width="10" Height="10" 
+                                Fill="Red" Margin="5,0,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- Loading Overlay -->
+        <Border x:Name="loadingOverlay" Background="#CC000000" Visibility="Collapsed">
+            <Grid>
+                <Border Background="White" CornerRadius="10" Padding="30" Width="200" Height="100"
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="Logging in..." 
+                                  Foreground="#333" 
+                                  FontSize="16" 
+                                  FontWeight="SemiBold"
+                                  HorizontalAlignment="Center"/>
+                        <ProgressBar IsIndeterminate="True" 
+                                    Height="10" 
+                                    Margin="0,15,0,0"
+                                    Background="#E9ECEF"
+                                    Foreground="#2196F3"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
